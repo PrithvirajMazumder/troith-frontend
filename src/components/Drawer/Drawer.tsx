@@ -35,7 +35,7 @@ export const Drawer = ({ children }: PropsWithChildren) => {
   return (
     <div className="drawer lg:drawer-open">
       <input id={elementIDs.mainDrawer} type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content border-r">
+      <div className="drawer-content border-r overflow-x-scroll">
         <Navbar />
         {children}
       </div>

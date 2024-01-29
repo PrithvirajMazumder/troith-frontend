@@ -1,6 +1,7 @@
 'use client'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { AvatarIcon, DotsHorizontalIcon, ExitIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
 
 export const Navbar = () => {
   return (
@@ -16,10 +17,10 @@ export const Navbar = () => {
             className="dropdown-content z-[1] menu p-2 shadow mt-2 bg-base-100 rounded-lg w-52"
           >
             <li>
-              <a>
+              <Link href="/bills/details/123">
                 <AvatarIcon />
                 Profile
-              </a>
+              </Link>
             </li>
             <li>
               <a className="text-error">

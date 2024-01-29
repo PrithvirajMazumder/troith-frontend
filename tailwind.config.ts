@@ -1,4 +1,5 @@
-import type { Config } from 'tailwindcss'
+import { Config } from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 
 const config: Config = {
   content: [
@@ -14,10 +15,20 @@ const config: Config = {
       }
     }
   },
-  plugins: [require('daisyui')],
+  plugins: [
+    require('daisyui'),
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.overflow-scroll': {
+          display: 'auto',
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none'
+        }
+      })
+    })
+  ],
   daisyui: {
     themes: ['emerald', 'night']
-    // darkMode: 'forest'
   }
 }
 export default config

@@ -7,10 +7,13 @@ import {
   NextSSRInMemoryCache,
   SSRMultipartLink
 } from '@apollo/experimental-nextjs-app-support/ssr'
+import React from 'react'
+
+const GraphQlBaseUrl = 'http://localhost:7800/graphql'
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: 'http://localhost:7800/graphql'
+    uri: GraphQlBaseUrl
   })
 
   return new NextSSRApolloClient({
