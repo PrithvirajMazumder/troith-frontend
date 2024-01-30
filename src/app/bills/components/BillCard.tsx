@@ -8,7 +8,6 @@ import { invoiceStatusColorMap } from '@/app/bills/constants/InvoiceColor'
 export type Props = { invoice: Invoice, className?: string }
 export const BillCard = ({ invoice, ...propsToFwd }: Props) => {
   const pathname = usePathname()
-
   const getTotalPrice = (invoiceItems: InvoiceItem[]): string => {
     return invoiceItems
       .reduce(
@@ -20,7 +19,6 @@ export const BillCard = ({ invoice, ...propsToFwd }: Props) => {
         currency: 'INR'
       })
   }
-
   const isInvoiceSelected = (invoiceId: string): boolean => pathname.includes(invoiceId)
 
   return (
