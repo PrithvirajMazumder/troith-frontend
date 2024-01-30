@@ -1,11 +1,10 @@
 'use client'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { AvatarIcon, DotsHorizontalIcon, ExitIcon } from '@radix-ui/react-icons'
-import Link from 'next/link'
 
 export const Navbar = () => {
   return (
-    <div className="sticky top-0 left-0 w-full">
+    <div className="sticky top-0 left-0 w-full z-20">
       <div className="navbar bg-base-100 w-full border-b gap-4">
         <ThemeToggle className="ml-auto" />
         <div className="dropdown dropdown-end">
@@ -17,10 +16,10 @@ export const Navbar = () => {
             className="dropdown-content z-[1] menu p-2 shadow mt-2 bg-base-100 rounded-lg w-52"
           >
             <li>
-              <Link href="/bills/details/123">
+              <a>
                 <AvatarIcon />
                 Profile
-              </Link>
+              </a>
             </li>
             <li>
               <a className="text-error">

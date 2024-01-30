@@ -7,6 +7,32 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
+  safelist: [
+    'bg-primary',
+    'hover:border-primary',
+    'hover:bg-primary/5',
+    'hover:bg-primary/10',
+    'bg-primary/5',
+    'border-primary',
+    'bg-primary/40',
+    'bg-primary/20',
+    'bg-success',
+    'hover:border-success',
+    'hover:bg-success/5',
+    'hover:bg-success/10',
+    'bg-success/5',
+    'border-success',
+    'bg-success/40',
+    'bg-success/20',
+    'bg-neutral',
+    'hover:border-neutral',
+    'hover:bg-neutral/5',
+    'hover:bg-neutral/10',
+    'bg-neutral/5',
+    'border-neutral',
+    'bg-neutral/40',
+    'bg-neutral/20',
+  ],
   theme: {
     extend: {
       backgroundImage: {
@@ -25,10 +51,13 @@ const config: Config = {
           'scrollbar-width': 'none'
         }
       })
+    }),
+    plugin(({addVariant}) => {
+      addVariant("parent-state-change", ".parent-state-change & ")
     })
   ],
   daisyui: {
-    themes: ['emerald', 'night']
+    themes: ['light', 'coffee']
   }
 }
 export default config

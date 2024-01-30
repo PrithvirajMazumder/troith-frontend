@@ -1,16 +1,14 @@
 'use client'
 import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons'
 import { useCompanyStore } from '@/app/stores/Company'
-import Link from 'next/link'
 import { useSuspenseQuery } from '@apollo/client'
 import { InvoiceQueries } from '@/app/bills/queries/InvoiceQueries'
+import { BillCard } from '@/app/bills/components/BillCard'
 
 export default function Bills() {
   const companyStore = useCompanyStore()
-  console.log('companyStore().companies[0].id', companyStore().companies[0].id)
   const { data: billsData } = useSuspenseQuery(InvoiceQueries.allByCompanyId, {
-    variables: { companyId: companyStore().companies[0].id },
-
+    variables: { companyId: companyStore().companies[0].id }
   })
 
   return (
@@ -31,15 +29,8 @@ export default function Bills() {
         </button>
       </div>
       <div className="p-4">
-        <h1 className="text-2xl">Bills</h1>
         {billsData?.invoices?.map((invoice) => (
-          <Link
-            href={`/bills/sneak/${invoice.id}`}
-            key={`bill-id-${invoice.id}`}
-            className="text-2xl"
-          >
-            {invoice?.party?.name}
-          </Link>
+          <BillCard className="mb-4" key={`bill-card-${invoice.id}`} invoice={invoice} />
         ))}
       </div>
     </div>

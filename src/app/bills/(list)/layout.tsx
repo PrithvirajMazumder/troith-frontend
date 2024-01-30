@@ -6,5 +6,10 @@ type Props = {
   bill: ReactNode
 }
 export default function BillsLayout({ bill, children }: Props) {
-  return <TwoColumnLayout leftPanel={children} rightPanel={bill} />
+  return (
+    <TwoColumnLayout
+      leftPanel={<div className="w-full h-full relative">{children}</div>}
+      rightPanel={bill}
+    />
+  )
 }

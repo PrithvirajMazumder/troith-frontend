@@ -5,6 +5,17 @@ export const InvoiceQueries = {
   GetInvoices ($companyId: String!) {
       invoices(companyId: $companyId){
           id
+          date
+          status
+          party{
+              name
+              id
+              gstin
+              addressLine1
+              state
+              zipCode
+              city
+          }
           invoiceItems{
               quantity
               price
@@ -12,12 +23,31 @@ export const InvoiceQueries = {
                   name
                   id
                   hsn
+                  tax{
+                      cgst
+                      sgst
+                  }
+                  uom{
+                      abbreviation
+                      name
+                  }
               }
           }
-          party{
-              name
+          no
+          vehicleNumber
+          tax {
+              cgst
+              sgst
+          }
+          bank{
               id
-              gstin
+              accountNumber
+              branch
+              name
+              ifsc
+              user {
+                  id
+              }
           }
       }
   }`)

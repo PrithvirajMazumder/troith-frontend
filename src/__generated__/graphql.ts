@@ -23,7 +23,7 @@ export type Bank = {
   id: Scalars['String']['output'];
   ifsc: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  user: User;
+  user?: Maybe<User>;
 };
 
 export type Challan = {
@@ -80,6 +80,7 @@ export type CreateCompanyInput = {
 export type CreateInvoiceInput = {
   bankId: Scalars['String']['input'];
   companyId: Scalars['String']['input'];
+  date: Scalars['String']['input'];
   invoiceItems: Array<CreateInvoiceItemInput>;
   no: Scalars['String']['input'];
   partyId: Scalars['String']['input'];
@@ -133,11 +134,13 @@ export type CreateUserInput = {
 export type Invoice = {
   __typename?: 'Invoice';
   bank: Bank;
-  company: Company;
+  company?: Maybe<Company>;
+  date: Scalars['String']['output'];
   id: Scalars['String']['output'];
   invoiceItems: Array<InvoiceItem>;
   no: Scalars['String']['output'];
   party: Party;
+  status: InvoiceStatus;
   tax: Tax;
   vehicleNumber: Scalars['String']['output'];
 };
@@ -149,9 +152,15 @@ export type InvoiceItem = {
   quantity: Scalars['Int']['output'];
 };
 
+export enum InvoiceStatus {
+  Confirmed = 'Confirmed',
+  Draft = 'Draft',
+  Paid = 'Paid'
+}
+
 export type Item = {
   __typename?: 'Item';
-  company: Company;
+  company?: Maybe<Company>;
   hsn?: Maybe<Scalars['Int']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
@@ -330,11 +339,11 @@ export type Party = {
   addressLine1: Scalars['String']['output'];
   addressLine2?: Maybe<Scalars['String']['output']>;
   city: Scalars['String']['output'];
-  company: Company;
+  company?: Maybe<Company>;
   gstin: Scalars['String']['output'];
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  partyItemIds: Array<Scalars['String']['output']>;
+  partyItemIds?: Maybe<Array<Scalars['String']['output']>>;
   state: Scalars['String']['output'];
   zipCode: Scalars['Int']['output'];
 };
@@ -435,15 +444,15 @@ export type QueryUserArgs = {
 export type Tax = {
   __typename?: 'Tax';
   cgst: Scalars['Int']['output'];
-  id: Scalars['String']['output'];
+  id?: Maybe<Scalars['String']['output']>;
   sgst: Scalars['Int']['output'];
 };
 
 export type Uom = {
   __typename?: 'Uom';
   abbreviation: Scalars['String']['output'];
-  company: Company;
-  id: Scalars['String']['output'];
+  company?: Maybe<Company>;
+  id?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };
 
@@ -482,10 +491,12 @@ export type UpdateCompanyInput = {
 
 export type UpdateInvoiceInput = {
   bankId?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   invoiceItems?: InputMaybe<Array<CreateInvoiceItemInput>>;
   no?: InputMaybe<Scalars['String']['input']>;
   partyId?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<InvoiceStatus>;
   taxId?: InputMaybe<Scalars['String']['input']>;
   vehicleNumber?: InputMaybe<Scalars['String']['input']>;
 };
@@ -543,7 +554,7 @@ export type GetInvoicesQueryVariables = Exact<{
 }>;
 
 
-export type GetInvoicesQuery = { __typename?: 'Query', invoices: Array<{ __typename?: 'Invoice', id: string, invoiceItems: Array<{ __typename?: 'InvoiceItem', quantity: number, price: number, item: { __typename?: 'Item', name: string, id: string, hsn?: number | null } }>, party: { __typename?: 'Party', name: string, id: string, gstin: string } }> };
+export type GetInvoicesQuery = { __typename?: 'Query', invoices: Array<{ __typename?: 'Invoice', id: string, date: string, status: InvoiceStatus, no: string, vehicleNumber: string, party: { __typename?: 'Party', name: string, id: string, gstin: string, addressLine1: string, state: string, zipCode: number, city: string }, invoiceItems: Array<{ __typename?: 'InvoiceItem', quantity: number, price: number, item: { __typename?: 'Item', name: string, id: string, hsn?: number | null, tax: { __typename?: 'Tax', cgst: number, sgst: number }, uom: { __typename?: 'Uom', abbreviation: string, name: string } } }>, tax: { __typename?: 'Tax', cgst: number, sgst: number }, bank: { __typename?: 'Bank', id: string, accountNumber: number, branch: string, name: string, ifsc: string, user?: { __typename?: 'User', id: string } | null } }> };
 
 export type GetCompaniesQueryVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -560,6 +571,6 @@ export type GetUserQueryVariables = Exact<{
 export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', name?: string | null, id: string } };
 
 
-export const GetInvoicesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetInvoices"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"companyId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"invoices"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"companyId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"companyId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"hsn"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"party"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"gstin"}}]}}]}}]}}]} as unknown as DocumentNode<GetInvoicesQuery, GetInvoicesQueryVariables>;
+export const GetInvoicesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetInvoices"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"companyId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"invoices"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"companyId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"companyId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"party"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"gstin"}},{"kind":"Field","name":{"kind":"Name","value":"addressLine1"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"zipCode"}},{"kind":"Field","name":{"kind":"Name","value":"city"}}]}},{"kind":"Field","name":{"kind":"Name","value":"invoiceItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"hsn"}},{"kind":"Field","name":{"kind":"Name","value":"tax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cgst"}},{"kind":"Field","name":{"kind":"Name","value":"sgst"}}]}},{"kind":"Field","name":{"kind":"Name","value":"uom"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"no"}},{"kind":"Field","name":{"kind":"Name","value":"vehicleNumber"}},{"kind":"Field","name":{"kind":"Name","value":"tax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cgst"}},{"kind":"Field","name":{"kind":"Name","value":"sgst"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bank"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"accountNumber"}},{"kind":"Field","name":{"kind":"Name","value":"branch"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"ifsc"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetInvoicesQuery, GetInvoicesQueryVariables>;
 export const GetCompaniesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCompanies"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"companies"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"addressLine1"}},{"kind":"Field","name":{"kind":"Name","value":"addressLine2"}},{"kind":"Field","name":{"kind":"Name","value":"gstin"}},{"kind":"Field","name":{"kind":"Name","value":"zipCode"}}]}}]}}]} as unknown as DocumentNode<GetCompaniesQuery, GetCompaniesQueryVariables>;
 export const GetUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
