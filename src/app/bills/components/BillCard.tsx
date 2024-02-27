@@ -24,7 +24,7 @@ export const BillCard = ({ invoice, ...propsToFwd }: Props) => {
   return (
     <Link
       className={`${propsToFwd.className ?? ''} bg-${invoiceStatusColorMap.get(invoice.status)}/5 flex items-center flex-row gap-4 group hover:border-${invoiceStatusColorMap.get(invoice.status)} hover:border-1 hover:bg-${invoiceStatusColorMap.get(invoice.status)}/10 card border transition-all duration-300 ease-in-out p-4 rounded-lg overflow-hidden relative ${isInvoiceSelected(invoice?.id) ? `parent-state-change border-${invoiceStatusColorMap.get(invoice.status)} bg-${invoiceStatusColorMap.get(invoice.status)}/5` : ''}`}
-      href={`/bills/sneak/${invoice.id}`}
+      href={`/bills/${invoice.id}`}
     >
       <div
         className={`min-w-40 rounded-b-lg min-h-4 absolute left-1/2 -translate-x-1/2 -top-10 bg-${invoiceStatusColorMap.get(invoice.status)}/40 border-b border-r border-l px-2 border-${invoiceStatusColorMap.get(invoice.status)} ease-in-out group-hover:top-0 parent-state-change:top-0 transition-all duration-300 flex items-center gap-4`}
@@ -37,7 +37,7 @@ export const BillCard = ({ invoice, ...propsToFwd }: Props) => {
         <div
           className={`bg-${invoiceStatusColorMap.get(invoice.status)}/20 text-${invoiceStatusColorMap.get(invoice.status)}-content rounded-lg w-16`}
         >
-          <span className="text-2xl uppercase">{invoice.party.name.substring(0, 2)}</span>
+          <span className="text-2xl uppercase">{invoice?.party?.name?.substring(0, 2)}</span>
         </div>
       </div>
       <div>

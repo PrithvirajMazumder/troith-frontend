@@ -1,3 +1,4 @@
+'use client'
 import React, { PropsWithChildren } from 'react'
 import { elementIDs } from '@/constants/elementIDs'
 import {
@@ -13,24 +14,59 @@ import {
 import { Navbar } from '@/components/Navbar'
 import { DrawerItem } from '@/components/Drawer/DrawerItem'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-const DrawerMenu = () => (
-  <ul className="menu p-4 w-80 min-h-full bg-base-100 text-base-content">
-    <div className="mb-4">
-      <Link href="/" className="btn btn-ghost text-2xl gap-0">
-        <span className="text-primary">T</span>roith
-      </Link>
-    </div>
-    <DrawerItem href="/" icon={<HomeIcon />} text="Dashboard" />
-    <DrawerItem href="/bills" icon={<FileTextIcon />} text="Bills" />
-    <DrawerItem href="/challans" icon={<FileIcon />} text="Challans" />
-    <DrawerItem href="/items" icon={<ArchiveIcon />} text="Items" />
-    <DrawerItem href="/parties" icon={<RocketIcon />} text="Parties" />
-    <DrawerItem href="/companies" icon={<BarChartIcon />} text="Companies" />
-    <DrawerItem href="/units" icon={<RulerHorizontalIcon />} text="Units" />
-    <DrawerItem href="/" icon={<AvatarIcon />} text="Profile" className="mt-auto" />
-  </ul>
-)
+const DrawerMenu = () => {
+  const pathname = usePathname()
+
+  return (
+    <ul className="menu p-4 w-80 min-h-full bg-base-100 text-base-content">
+      <div className="mb-4">
+        <Link href="/" className="btn btn-ghost text-3xl gap-0">
+          <span className="text-primary">T</span>roith
+        </Link>
+      </div>
+      <DrawerItem active={pathname === '/'} href="/" icon={<HomeIcon />} text="Dashboard" />
+      <DrawerItem
+        active={pathname.includes('bills')}
+        href="/bills"
+        icon={<FileTextIcon />}
+        text="Bills"
+      />
+      <DrawerItem
+        active={pathname.includes('challans')}
+        href="/challans"
+        icon={<FileIcon />}
+        text="Challans"
+      />
+      <DrawerItem
+        active={pathname.includes('items')}
+        href="/items"
+        icon={<ArchiveIcon />}
+        text="Items"
+      />
+      <DrawerItem
+        active={pathname.includes('parties')}
+        href="/parties"
+        icon={<RocketIcon />}
+        text="Parties"
+      />
+      <DrawerItem
+        active={pathname.includes('companies')}
+        href="/companies"
+        icon={<BarChartIcon />}
+        text="Companies"
+      />
+      <DrawerItem
+        active={pathname.includes('units')}
+        href="/units"
+        icon={<RulerHorizontalIcon />}
+        text="Units"
+      />
+      <DrawerItem href="/" icon={<AvatarIcon />} text="Profile" className="mt-auto" />
+    </ul>
+  )
+}
 export const Drawer = ({ children }: PropsWithChildren) => {
   return (
     <div className="drawer lg:drawer-open">

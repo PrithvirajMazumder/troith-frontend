@@ -9,6 +9,7 @@ const config: Config = {
   ],
   safelist: [
     'bg-primary',
+    'text-primary',
     'hover:border-primary',
     'hover:bg-primary/5',
     'hover:bg-primary/10',
@@ -17,6 +18,7 @@ const config: Config = {
     'bg-primary/40',
     'bg-primary/20',
     'bg-success',
+    'text-success',
     'hover:border-success',
     'hover:bg-success/5',
     'hover:bg-success/10',
@@ -25,13 +27,14 @@ const config: Config = {
     'bg-success/40',
     'bg-success/20',
     'bg-neutral',
+    'text-neutral',
     'hover:border-neutral',
     'hover:bg-neutral/5',
     'hover:bg-neutral/10',
     'bg-neutral/5',
     'border-neutral',
     'bg-neutral/40',
-    'bg-neutral/20',
+    'bg-neutral/20'
   ],
   theme: {
     extend: {
@@ -52,12 +55,12 @@ const config: Config = {
         }
       })
     }),
-    plugin(({addVariant}) => {
-      addVariant("parent-state-change", ".parent-state-change & ")
+    plugin(({ addVariant }) => {
+      addVariant('parent-state-change', '.parent-state-change & ')
     })
   ],
   daisyui: {
-    themes: ['light', 'coffee']
+    themes: ['winter', 'coffee']
   }
 }
 export default config

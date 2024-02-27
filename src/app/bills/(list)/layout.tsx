@@ -9,7 +9,7 @@ export default function BillsLayout({ bill, children }: Props) {
   return (
     <TwoColumnLayout
       leftPanel={<div className="w-full h-full relative">{children}</div>}
-      rightPanel={bill}
+      rightPanel={<div className="w-full h-full relative">{bill}</div>}
     />
   )
 }
